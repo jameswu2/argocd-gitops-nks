@@ -23,6 +23,10 @@ argo-cd:
       ingressClassName: cilium
       annotations:
         ingress.cilium.io/loadbalancer-mode: shared
+        # Disable Cilium's automatic HTTP->HTTPS redirect so cert-manager's
+        # HTTP-01 acme-challenge paths aren't 301'd to HTTPS (which returns
+        # connection-reset while the cert is still being issued).
+        ingress.cilium.io/force-https: disabled
         cert-manager.io/cluster-issuer: letsencrypt-prod
       tls: true
       extraTls:
